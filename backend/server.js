@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import {err} from './Middlewares/errors.js'
 import path from 'path'
 import { resolve } from 'path'
+import colors from 'colors'
 
 
 const app = express()
@@ -40,15 +41,15 @@ app.use(err)
 // console.log(process.env)
 const connectDB = async()=>{
     try{
-        await mongoose.connect(process.env.DB, {
+       const conn =  await mongoose.connect(process.env.DB, {
             useNewUrlParser: true,
             useUnifiedTopology:true}
         );
     
-    console.log('DB CONNECTED')
+    console.log(`DB CONNECTED: ${conn.connection.host}`.brightMagenta.italic)
 
     }catch(err){
-        console.error(err.message)
+        console.error(`${err.message}`.red)
         process.exit(1)
     }
 }
@@ -69,7 +70,7 @@ process.on('uncaughtException',err=>{
 
 
 const server = app.listen(process.env.PORT || 5000,()=>{
-    console.log(`Server is Running At ${process.env.PORT} In ${process.env.NODE_ENV}`)
+    console.log(`Server is Running At ${process.env.PORT} In ${process.env.NODE_ENV}`.yellow.bold)
 })
 
 

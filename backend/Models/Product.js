@@ -1,6 +1,32 @@
 import mongoose from 'mongoose'
 
 
+const reviewSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    rating: {
+        type: Number,
+        required: true
+    },
+    comment: {
+        type: String,
+        required: true
+    },
+    user:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'User',
+        required:true
+    }
+},
+    {
+        timestamps: true,
+        toJSON:{virtuals:true},
+        toObject:{virtuals:true}
+    }
+)
+
 const productSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -50,26 +76,7 @@ const productSchema = new mongoose.Schema({
         required:true
      },
 
-    //  reviews:[
-    //      {
-    //          name:{
-    //              type:String
-    //          },
-    //          rating:{
-    //              type:Number,
-    //              default:3,
-    //              maxlength:5
-    //          },
-    //          comment:{
-    //             type:String,
-    //          },
-    //          user:{
-    //             type:mongoose.SchemaTypes.ObjectId,
-    //          ref:'User',
-    //          required:true
-    //         }
-    //      },
-    //  ],
+     reviews:[reviewSchema],
 
      createdAt:{
          type:Date,
@@ -78,6 +85,7 @@ const productSchema = new mongoose.Schema({
     
 
 },{
+    timestamps: true,
     toJSON:{virtuals:true},
     toObject:{virtuals:true}
 })

@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 
 const orderSchema = mongoose.Schema({
-    shippingInfo: {
+    shippingAddress: {
         address:{
             type:String,
 
@@ -19,7 +19,7 @@ const orderSchema = mongoose.Schema({
             type:String,
 
         },
-        Country:{
+        country:{
             type:String,
 
         },
@@ -36,7 +36,7 @@ const orderSchema = mongoose.Schema({
                 type:String,
                 required:true
             },
-            quantity:{
+            qty:{
                 type:Number,
                 required:true
             },
@@ -55,11 +55,17 @@ const orderSchema = mongoose.Schema({
             }
         }
     ],
-    paymentInfo:{
+    paymentResult:{
         id:{
             type:String,
         },
         status:{
+            type:String,
+        },
+        update_time:{
+            type:String,
+        },
+        email_address:{
             type:String,
         }
     },
@@ -97,6 +103,10 @@ const orderSchema = mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now()
+    },
+    paymentMethod:{
+        type:String,
+        required:true
     }
     
 

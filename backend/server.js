@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import products from './Routes/ProductsRoutes.js'
 import morgan from 'morgan'
-// import users from './Routes/Userjs'
-import {err} from './Middlewares/errors.js'
+// import users from './Routes/User.js'
+import err from './Middlewares/errors.js'
 import path from 'path'
 import { resolve } from 'path'
 import colors from 'colors'
+import { connectDB } from './Utils/DB.js';
 
 
 const app = express()
@@ -39,23 +40,9 @@ app.use(err)
 
 
 // console.log(process.env)
-const connectDB = async()=>{
-    try{
-       const conn =  await mongoose.connect(process.env.DB, {
-            useNewUrlParser: true,
-            useUnifiedTopology:true}
-        );
-    
-    console.log(`DB CONNECTED: ${conn.connection.host}`.brightMagenta.italic)
 
-    }catch(err){
-        console.error(`${err.message}`.red)
-        process.exit(1)
-    }
-}
 
 connectDB()
-
 
 // UNHANDLED EXCEPTIONS
 
@@ -78,7 +65,7 @@ const server = app.listen(process.env.PORT || 5000,()=>{
 // unhandledRejection
 process.on('unhandledRejection',err=>{
     console.log(`ERROR REJECTION  ${err.message}`)
-    coonsole.log('SERVER SHUTTING DOWN')
+    console.log('SERVER SHUTTING DOWN')
 
     server.close(()=>{
         process.exit(1)

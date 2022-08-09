@@ -92,6 +92,12 @@ const orderSchema = mongoose.Schema({
     paidAt:{
             type:Date,
     },
+    isPaid:{
+        type:Boolean,
+        required:true,
+        default:false
+
+    },
     orderStatus:{
         type:String,
         default:'Processing',
@@ -99,6 +105,12 @@ const orderSchema = mongoose.Schema({
     },
     deliveredAt:{
         type:Date,
+    },
+    isDelivered:{
+        type:Boolean,
+        required:true,
+        default:false,
+
     },
     createdAt:{
         type:Date,
@@ -122,5 +134,4 @@ orderSchema.virtual('id').get(function(){
 
 
 const orderModel = mongoose.model('Order', orderSchema)
-
-module.exports = orderModel;
+export default orderModel;

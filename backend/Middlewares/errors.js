@@ -2,7 +2,7 @@ import ErrorHandler from '../Utils/errorHandler.js';
 
 
 
-export const err = (err, req,res,next) => {
+export default (err, req,res,next) => {
     err.statusCode = err.statusCode || 500;
     err.message = err.message || 'Internal Server Error';
 
@@ -15,12 +15,15 @@ export const err = (err, req,res,next) => {
         })
     }
 
-    if(process.env.NODE_ENV === 'PRODUCTION'){
+    if(process.env.NODE_ENV === 'DEVELOPMENT'){
         let error = {...err}
 
         error.message =err.message
 
         // WRONG MONGOOSE ID
+        if(err.name === 'CastError'){
+            console.log(err.name,'hgcgjcgjcjgcgj')
+        }
         if(err.name === 'CastError'){
             const message = `Resource Not found. Invalid ${err.path}`
             error = new ErrorHandler(message,400)

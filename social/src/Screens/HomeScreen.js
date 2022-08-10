@@ -2,28 +2,31 @@ import React,{useEffect,useState} from 'react'
 import {Row,Col} from 'react-bootstrap'
 import Product from '../Components/Product'
 import axios from 'axios'
+import {useDispatch,useSelector} from 'react-redux'
+import { getProducts } from '../store/actions/ProductsActions'
+import Spinner from '../Components/Spinner';
+import Message from '../Components/Message'
+
+
+
+
 
 const HomeScreen = () => {
 
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
+  const {products,loading,error} = useSelector(state => state.prod)
 
   useEffect(()=>{
 
-
-    const fetchProducts =async()=>{
-        const {data}  = await axios.get(`/api/shop/products/`)
-
-        setProducts(data)
-    }
-    fetchProducts()
+    dispatch(getProducts())
     
 
-},[])
+},[dispatch])
   return (
     <>
         <h1>Latest Products</h1>
         <Row>
-        {products && products.map(pro =>(
+        {loading ? <Spinner /> :error ? <Message variant='danger'>{error}</Message> : products && products.map(pro =>(
             <Col key={pro._id} sm={12} md={6} lg={4} xl={3}>
             
             <Product product={pro} />

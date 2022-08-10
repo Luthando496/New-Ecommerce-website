@@ -32,3 +32,14 @@ a{
   padding: 15px;
   text-decoration: none;
 }
+
+
+.cart-img{
+  width:100%;
+}
+
+.cart-btn-container{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}

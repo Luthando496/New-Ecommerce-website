@@ -7,20 +7,20 @@ import {ShipReducer} from './ShipReducer'
 
 const productSlice = createSlice({
     name:'product',
-    initialState:{products:null,loading:true,er:null,resPerPage:null,newProd:{},proErr:null,proLoad:true,image:[] },
+    initialState:{products:[],loading:false,error:null,resPerPage:null,newProd:{},proErr:null,proLoad:true, },
     reducers:{
         allProductsRequest(state, action){
-            state.products =[]
+            state.products = []
             state.loading =true
         },
         ProductsSuccess(state, action){
-            state.products =action.payload
-            state.loading =false
-            state.resPerPage = action.payload.resPerPage
+            state.products = action.payload
+            state.loading = false
+            // state.resPerPage = action.payload.resPerPage
         },
         ProductsFail(state, action){
-            state.er =action.payload
-            state.loading =false
+            state.error = action.payload
+            state.loading = false
             state.products = []
         },
         newProduct(state, action){
@@ -48,10 +48,9 @@ const productSlice = createSlice({
 
 const productDetailsSlice = createSlice({
     name:'details',
-    initialState:{product:null,loading:true,er:null},
+    initialState:{product:null,loading:true,error:null},
     reducers:{
         allProductsRequest(state, action){
-            state.product =
             state.loading =true
         },
         ProductDetailsSuccess(state, action){
@@ -59,7 +58,7 @@ const productDetailsSlice = createSlice({
             state.loading =false
         },
         ProductsDetailsFail(state, action){
-            state.er =action.payload
+            state.error =action.payload
             state.loading =false
             state.product = null
         }

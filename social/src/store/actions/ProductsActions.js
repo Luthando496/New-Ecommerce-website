@@ -2,30 +2,21 @@ import {productAction,detailsAction} from '../store'
 import axios from 'axios'
 
 
-export const getproducts = (keyword = '',currentPage=1,price,category) =>
-    async dispacth =>{
+export const getProducts = () =>
+    async dispatch =>{
         try{
 
-            console.log(keyword)
+            dispatch(productAction.allProductsRequest())
 
-            let link = `/v1/api/amazona/products?keyword=${keyword}&page=${currentPage}&price=[lte]=${price[1]}&price[gte]=${price[0]}`
+            const {data} = await axios.get('/api/shop/products')
 
-            if(category){
-                link = `/v1/api/amazona/products?keyword=${keyword}&page=${currentPage}&price=[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}` 
-
-            }
-
-            const {data} = await axios.get(link)
-
-
-
-            dispacth(productAction.ProductsSuccess(data))
+            dispatch(productAction.ProductsSuccess(data))
 
 
 
         }catch(err){
             console.log(err)
-            dispacth(productAction.ProductsFail(err || err.response || err.response.data))
+            dispatch(productAction.ProductsFail(err || err.response || err.response.data))
         }
 }
 
@@ -33,21 +24,21 @@ export const getproducts = (keyword = '',currentPage=1,price,category) =>
 
 
 export const productDetails = (id) =>
-    async dispacth =>{
+    async dispatch =>{
 
-        // dispacth(detailsAction.allProductsRequest())
+        // dispatch(detailsAction.allProductsRequest())
         try{
 
-            const {data} = await axios.get(`/v1/api/amazona/single-product/${id}`) 
+            const {data} = await axios.get(`/api/shop/products/${id}`) 
 
 
-            dispacth(detailsAction.ProductDetailsSuccess(data.product))
+            dispatch(detailsAction.ProductDetailsSuccess(data))
 
 
 
         }catch(err){
             console.log(err)
-            dispacth(detailsAction.ProductsDetailsFail(err || err.response || err.response.data))
+            dispatch(detailsAction.ProductsDetailsFail(err && err.response && err.response.data.message ? err.response.data.message: err.message))
         }
 }
 
@@ -79,7 +70,7 @@ export const newProduct = (name,description,price,seller,category,filer)=>{
 
         try {
 
-            const {data} = await axios.post('/v1/api/amazona/admin/new-product',{name,description,price,seller,category,image},config)
+            const {data} = await axios.post('/v1/api',{name,description,price,seller,category,image},config)
 
             console.log(data)
 

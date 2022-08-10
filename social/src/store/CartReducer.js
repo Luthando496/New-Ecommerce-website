@@ -1,35 +1,29 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-// const cartStore = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) :[]
+const cartStore = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) :[]
 
 
 const cartSlice = createSlice({
     name:'cart',
-    initialState:{items:[]},
+    initialState:{cartItems:cartStore},
     reducers:{
-        addTocart(state, action){
+        addToCart(state, action){
             const item = action.payload
-            const exist = state.items.find(p => p.id === item.id)
+            const exist = state.cartItems.find(p => p.id === item.id)
 
             if(!exist){
-                state.items.push({
-                    _id:item._id,
+                state.cartItems.push({
+                    product:item._id,
                     name:item.name,
                     price:item.price,
-                    description:item.description,
-                    ratings:item.ratings,
-                    category:item.category,
-                    seller:item.seller,
-                    stock:item.stock,
+                    countInStock:item.countInStock,
                     image:item.image,
-                    numOfReviews:item.numOfReviews,
-                    createdAt:item.createdAt,
                     id:item.id,
-                    quantity:1
+                    qty:item.qty,
 })
             }else{
-                exist.stock--
-                exist.quantity++
+                exist.countInStock--
+                exist.qty++
             }
 
             // if(exist.stock === 0){
@@ -41,12 +35,19 @@ const cartSlice = createSlice({
         },
         removeItem(state, action){
             const id = action.payload
+            state.cartItems = state.cartItems.filter(p => p.id !== id)
+            return localStorage.setItem('cart', JSON.stringify(state.cartItems))
+
+          
+        },
+        removeQTY(state, action){
+            const id = action.payload
             const exist = state.items.find(p => p.id === id)
-            if(exist.quantity === 1){
+            if(exist.qty === 1){
                 state.items = state.items.filter(item => item.id !== id)
 
             }else{
-                exist.quantity--
+                exist.qty--
             }
         },
         // addQty(state, action){}
@@ -57,3 +58,5 @@ const cartSlice = createSlice({
 
 export const cartAction = cartSlice.actions
 export const cartReducer = cartSlice.reducer
+
+

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import products from './Routes/ProductsRoutes.js'
 import morgan from 'morgan'
-// import users from './Routes/User.js'
+import users from './Routes/UserRoutes.js'
 import err from './Middlewares/errors.js'
 import path from 'path'
 import { resolve } from 'path'
@@ -19,6 +19,7 @@ app.use(morgan('dev'))
 
 
 app.use('/api/shop/products',products)
+app.use('/api/shop',users)
 
 
 if(process.env.NODE_ENV === 'PRODUCTION'){

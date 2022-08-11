@@ -14,10 +14,11 @@ export const login = (email,password)=>{
         }
         try {
 
-            const {data} = await axios.post(`/v1/api/amazona/users/login`,{email,password},config)
+            const {data} = await axios.post(`/api/shop/users/login`,{email,password},config)
 
             console.log(data)
             localStorage.setItem('token',JSON.stringify(data.token))
+            localStorage.setItem('user',JSON.stringify(data))
 
             dispatch(authAction.userLogin(data))
             
@@ -84,11 +85,9 @@ export const logout = ()=>{
 
         try{
 
-            const {data} = await axios.get(`/v1/api/amazona/users/logout`)
-
-            console.log(data)
             dispatch(authAction.userLogout())
             localStorage.removeItem('token')
+            localStorage.removeItem('user')
 
         }catch(err){
             console.log(err.response && err.response.data.message
@@ -126,7 +125,7 @@ export const getMe = ()=>{
 
             const {data} = await axios.get(`/v1/api/amazona/users/profile`,config)
 
-            console.log(data)
+            // localStorage.setItem('token',JSON.stringify(data.token))
 
 
             dispatch(authAction.loadUser(data))

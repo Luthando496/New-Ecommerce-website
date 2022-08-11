@@ -43,3 +43,15 @@ a{
   align-items: flex-start;
   justify-content: space-evenly;
 }
+
+
+.login-btn{
+  margin-top: 2rem;
+}
+
+@media screen and (max-width:1700px)  {
+  .head-btn{
+    margin-right: 4.5rem;
+  }
+  
+}

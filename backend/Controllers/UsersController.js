@@ -21,7 +21,7 @@ export const getAllUsers= async(req,res,next) =>{
 export const registerUser =  async (req, res, next)=>{
 
     try{
-        const {name,password,email,avatar} = req.body;
+        const {name,password,email} = req.body;
 
         const existUser = await User.findOne({email})
 

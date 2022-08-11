@@ -19,7 +19,7 @@ const Header = props => {
     <header>
         <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
       <Container fluid>
-        <Link to="/">EasyShop</Link>
+        <Link to="/" className='easy'>EasyShop</Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

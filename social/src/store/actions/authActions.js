@@ -39,11 +39,9 @@ export const login = (email,password)=>{
 
 
 
-export const register = (userData)=>{
+export const register = (name,email,password)=>{
     return async dispatch=>{
 
-
-        console.log(userData)
 
 
         const config ={
@@ -53,13 +51,14 @@ export const register = (userData)=>{
         }
         try {
 
-            const {data} = await axios.post(`/v1/api/amazona/users/user-reg`,userData,config)
+            const {data} = await axios.post(`/api/shop/users/reg`,{name,email,password},config)
 
             console.log(data)
 
             localStorage.setItem('token',JSON.stringify(data.token))
+            localStorage.setItem('user',JSON.stringify(data))
 
-            dispatch(authAction.userLogin(data))
+            dispatch(authAction.userRegister(data))
 
 
         }catch(err){

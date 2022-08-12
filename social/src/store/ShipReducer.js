@@ -7,7 +7,7 @@ const payToken = localStorage.getItem('payment') ? JSON.parse(localStorage.getIt
 
 const ShipSlice = createSlice({
     name:'Ship',
-    initialState:{shippingAddress:shipToken,payment:payToken,order:null,loading:false,success:false,err:null},
+    initialState:{shippingAddress:shipToken,payment:payToken,order:null,loading:false,success:false,err:null,orderDetails:null,orderLoad:true,orderError:null},
     reducers:{
         AddShipping(state, action){
             state.shippingAddress = action.payload
@@ -17,7 +17,7 @@ const ShipSlice = createSlice({
         },
         OrderCreateSuccess(state,action){
             state.order = action.payload
-            state.success = false
+            state.success = true
             state.loading = false
         },
         OrderCreateFail(state,action){
@@ -26,6 +26,17 @@ const ShipSlice = createSlice({
         },
         OrderCreateRequest(state,action){
             state.loading = true
+        },
+        OrderDetailsSuccess(state,action){
+            state.orderDetails = action.payload
+            state.orderLoad = false
+        },
+        OrderDetailsFail(state,action){
+            state.orderError = action.payload
+            state.orderLoad = false
+        },
+        OrderDetailsRequest(state,action){
+            state.orderLoad = true
         }
 
 }

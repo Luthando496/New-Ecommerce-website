@@ -39,13 +39,39 @@ export const newOrder =(order) =>{
             }
         }
             const {data} = await axios.post('/api/shop/new/order', order,config)
-            dispatch(addShipping(data))
             
                     
                     dispatch(shippingAction.OrderCreateSuccess(data))
             
         } catch (error) {
             dispatch(shippingAction.OrderCreateFail(err.response && err.response.data.message
+                ? err.response.data.message
+                : err.message))
+    }
+}
+}
+
+
+
+
+export const getOrderId =(id) =>{
+    return async (dispatch,useState) =>{
+        try {
+            // dispatch(shippingAction.OrderDetailsRequest())
+        const token = JSON.parse(localStorage.getItem('token'))
+        const config ={
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: token ? `Bearer ${token}` : ''
+            }
+        }
+            const {data} = await axios.get(`/api/shop/order/${id}`,config)
+            
+                    
+            dispatch(shippingAction.OrderDetailsSuccess(data))
+            
+        } catch (err) {
+            dispatch(shippingAction.OrderDetailsFail(err.response && err.response.data.message
                 ? err.response.data.message
                 : err.message))
     }

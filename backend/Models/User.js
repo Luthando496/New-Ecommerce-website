@@ -54,7 +54,7 @@ userSchema.methods.comparePassword = async function(candidatePassword,userPasswo
     return await byt.compare(candidatePassword,userPassword);
 }
 
-const userModel = mongoose.model('user', userSchema)
+const userModel = mongoose.model('User', userSchema)
 
 
 export default userModel;

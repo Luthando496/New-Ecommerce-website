@@ -1,22 +1,34 @@
 import React,{useState}from 'react'
-// import {Link,useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {Form,Button} from 'react-bootstrap'
 import {useSelector,useDispatch} from 'react-redux'
 import FormContainer from '../Components/FormContainer'
+import CheckOutSteps from '../Components/CheckOutSteps'
+import {addShipping} from '../store/actions/ShipAction'
 
 
 
 const ShippingScreen = () => {
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [postalCode, setPostalCode] = useState('')
-    const [country, setCountry] = useState('')
+    const {shippingAddress} = useSelector(state => state.ship)
+    console.log(shippingAddress)
+    const [address, setAddress] = useState(shippingAddress.address)
+    const [city, setCity] = useState(shippingAddress.city)
+    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
+    const [country, setCountry] = useState(shippingAddress.country)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
 
     const Submit = ()=>{
-        
+
+        dispatch(addShipping(address,city,postalCode,country))
+        navigate('/payment')
+
     }
   return (
+    <main>
     <FormContainer>
+        <CheckOutSteps step1 step2 />
         <h1>Shipping</h1>
         <Form onSubmit={Submit}>
         <Form.Group controlId='address'>
@@ -52,8 +64,11 @@ const ShippingScreen = () => {
         value={country} onChange={e =>setCountry(e.target.value)}></Form.Control>
 
         </Form.Group>
+
+        <Button type='submit'variant='primary'>Continue</Button>
         </Form>
     </FormContainer>
+    </main>
   )
 }
 

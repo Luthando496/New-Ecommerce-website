@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import products from './Routes/ProductsRoutes.js'
+import order from './Routes/OrderRoutes.js'
 import morgan from 'morgan'
 import users from './Routes/UserRoutes.js'
 import err from './Middlewares/errors.js'
@@ -20,6 +21,7 @@ app.use(morgan('dev'))
 
 app.use('/api/shop/products',products)
 app.use('/api/shop',users)
+app.use('/api/shop',order)
 
 
 if(process.env.NODE_ENV === 'PRODUCTION'){

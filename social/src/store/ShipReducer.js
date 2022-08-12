@@ -1,22 +1,31 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const userToken = localStorage.getItem('ship') ? JSON.parse(localStorage.getItem('ship')): {}
 
+const shipToken = localStorage.getItem('ship') ? JSON.parse(localStorage.getItem('ship')): {}
+const payToken = localStorage.getItem('payment') ? JSON.parse(localStorage.getItem('payment')): {}
 
 
 const ShipSlice = createSlice({
     name:'Ship',
-    initialState:{ShippingInfo:userToken,review:{},err:null},
+    initialState:{shippingAddress:shipToken,payment:payToken,order:null,loading:false,success:false,err:null},
     reducers:{
         AddShipping(state, action){
-            state.ShippingInfo = action.payload
+            state.shippingAddress = action.payload
         },
-        newReview(state,action){
-            state.review = action.payload
+        paymentSave(state,action){
+            state.payment = action.payload
         },
-        reviewFail(state,action){
+        OrderCreateSuccess(state,action){
+            state.order = action.payload
+            state.success = false
+            state.loading = false
+        },
+        OrderCreateFail(state,action){
             state.err = action.payload
-            state.review = {}
+            state.loading = false
+        },
+        OrderCreateRequest(state,action){
+            state.loading = true
         }
 
 }

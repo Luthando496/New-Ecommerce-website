@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 import { Table, Button, Row, Col } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import { getUserDetails, updateUserProfile } from '../actions/userActions'
-import { listMyOrders } from '../actions/orderActions'
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import {Link} from 'react-router-dom'
+import Message from '../Components/Message'
+import Spinner from '../Components/Spinner'
+import {getOrderList} from '../store/actions/ShipAction'
 
 const ProfileScreen = ({ location, history }) => {
 
@@ -15,25 +13,26 @@ const ProfileScreen = ({ location, history }) => {
 
 
 
-//   const userLogin = useSelector((state) => state.userLogin)
+  const {orderList,orderListLoading,orderListErr} = useSelector((state) => state.ship)
 
 
 
 
 
-//   useEffect(() => {
+  useEffect(() => {
 
-//   }, [dispatch, success])
+    dispatch(getOrderList())
+  }, [dispatch])
 
 
   return (
     <Row>
       <Col md={9}>
         <h2>My Orders</h2>
-        {loadingOrders ? (
-          <Loader />
-        ) : errorOrders ? (
-          <Message variant='danger'>{errorOrders}</Message>
+        {orderListLoading ? (
+          <Spinner />
+        ) : orderListErr ? (
+          <Message variant='danger'>{orderListErr}</Message>
         ) : (
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
@@ -47,7 +46,7 @@ const ProfileScreen = ({ location, history }) => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orderList.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
@@ -67,11 +66,11 @@ const ProfileScreen = ({ location, history }) => {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
+                    <Link to={`/order/${order._id}`}>
                       <Button className='btn-sm' variant='light'>
                         Details
                       </Button>
-                    </LinkContainer>
+                    </Link>
                   </td>
                 </tr>
               ))}

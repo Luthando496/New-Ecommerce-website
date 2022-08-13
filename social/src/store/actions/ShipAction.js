@@ -81,6 +81,33 @@ export const getOrderId =(id) =>{
 
 
 
+export const getOrderList =() =>{
+    return async (dispatch,useState) =>{
+        try {
+            dispatch(shippingAction.OrderListRequest())
+        const token = JSON.parse(localStorage.getItem('token'))
+        const config ={
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: token ? `Bearer ${token}` : ''
+            }
+        }
+            const {data} = await axios.get(`/api/shop/order/user/profile`,config)
+            
+                    
+            dispatch(shippingAction.OrderListSuccess(data))
+            
+        } catch (err) {
+            dispatch(shippingAction.OrderListFail(err.response && err.response.data.message
+                ? err.response.data.message
+                : err.message))
+    }
+}
+}
+
+
+
+
 // rating,comment,productId
 
 

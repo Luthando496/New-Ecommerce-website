@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.route('/new/order').post(protect,addOrderItems)
 router.route('/order/:id').get(protect,getOrderId)
-router.route('/order/user').get(protect,getOrderUser)
+router.route('/order/user/profile').get(protect,getOrderUser)
 // router.route('/:id').get(getProductsId)
 
 

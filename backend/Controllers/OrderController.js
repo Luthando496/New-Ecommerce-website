@@ -53,7 +53,7 @@ export const getOrderId= async(req,res,next) =>{
 
 export const getOrderUser= async(req,res,next) =>{
     try{
-        const order =  await Order.find({shippingPrice:120});
+        const order =  await Order.find({user:req.user._id});
         
         return res.status(200).json(order)
         
